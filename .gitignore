@@ -1,0 +1,17 @@
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
+
+# 안전장치: 회사 내부 문서/개인 파일이 실수로 커밋되지 않도록 차단
+# (웹사이트에 필요한 파일은 index.html, favicon.svg, CNAME, assets/ 뿐)
+기타 회사 관련 문서/
+내 이미지들/
+*.zip
+*.m4a
+*.mp4
+*.hwp
+*.pages
+*.docx
+*.pdf

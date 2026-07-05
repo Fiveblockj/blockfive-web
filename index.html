@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Block Five · 블록 파이브</title>
+  <meta name="description" content="Block Five(블록 파이브)는 일상을 더 즐겁게 만드는 앱을 만듭니다. 행테, 고민장터를 서비스하는 앱 개발사입니다." />
+  <meta name="theme-color" content="#ffffff" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Block Five" />
+  <meta property="og:title" content="Block Five · 블록 파이브" />
+  <meta property="og:description" content="일상을 더 즐겁게 만드는 앱을 만듭니다." />
+  <meta property="og:url" content="https://blockfive.kr" />
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="canonical" href="https://blockfive.kr" />
+
+  <!-- Pretendard -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+
+  <style>
+    :root {
+      --navy: #1a2332;
+      --navy-soft: #3a4658;
+      --coral: #FF6B7A;
+      --coral-deep: #f2495b;
+      --white: #ffffff;
+      --bg-tint: #f6f7fb;
+      --line: #eaecf2;
+      --radius: 16px;
+      --max: 1080px;
+      --ease: cubic-bezier(.16, 1, .3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      color: var(--navy);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .wrap {
+      width: 100%;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--coral-deep);
+      background: rgba(255, 107, 122, .1);
+      padding: 7px 14px;
+      border-radius: 999px;
+    }
+
+    /* ---------- Header ---------- */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, .72);
+      backdrop-filter: saturate(180%) blur(14px);
+      -webkit-backdrop-filter: saturate(180%) blur(14px);
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s ease;
+    }
+    header.scrolled { border-bottom-color: var(--line); }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -.02em;
+    }
+    .brand .logo {
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 900;
+      font-size: 17px;
+      background: linear-gradient(135deg, var(--navy), #2c3a52);
+      box-shadow: 0 4px 12px rgba(26, 35, 50, .28);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--navy-soft);
+    }
+    .nav-links a { transition: color .2s ease; }
+    .nav-links a:hover { color: var(--navy); }
+    .nav-cta {
+      color: #fff !important;
+      background: var(--navy);
+      padding: 9px 18px;
+      border-radius: 999px;
+      transition: transform .2s var(--ease), box-shadow .2s ease;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(26, 35, 50, .22); }
+    @media (max-width: 680px) { .nav-links .hide-sm { display: none; } }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      position: relative;
+      padding: 120px 0 130px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(60% 55% at 50% -10%, rgba(255, 107, 122, .16), transparent 60%),
+        radial-gradient(45% 40% at 12% 8%, rgba(120, 145, 255, .14), transparent 60%),
+        radial-gradient(50% 45% at 90% 20%, rgba(255, 180, 120, .12), transparent 60%),
+        linear-gradient(180deg, #fbfbfe, #ffffff 60%);
+    }
+    /* floating blobs */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(46px);
+      opacity: .55;
+      z-index: -1;
+      animation: float 14s ease-in-out infinite;
+    }
+    .blob.b1 { width: 320px; height: 320px; top: -60px; left: -80px; background: rgba(255, 107, 122, .30); }
+    .blob.b2 { width: 260px; height: 260px; top: 40px; right: -60px; background: rgba(120, 145, 255, .26); animation-delay: -5s; }
+    .blob.b3 { width: 220px; height: 220px; bottom: -80px; left: 40%; background: rgba(120, 220, 190, .22); animation-delay: -9s; }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(18px, -22px) scale(1.06); }
+    }
+    @media (prefers-reduced-motion: reduce) { .blob { animation: none; } }
+
+    .hero h1 {
+      font-size: clamp(44px, 9vw, 92px);
+      font-weight: 800;
+      letter-spacing: -.045em;
+      line-height: 1.02;
+      margin: 26px 0 0;
+    }
+    .hero h1 .accent {
+      background: linear-gradient(120deg, var(--coral), var(--coral-deep));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero .sub-ko {
+      display: block;
+      font-size: clamp(17px, 3.6vw, 22px);
+      font-weight: 600;
+      color: var(--navy-soft);
+      letter-spacing: -.01em;
+      margin-top: 14px;
+    }
+    .hero .lead {
+      max-width: 620px;
+      margin: 28px auto 0;
+      font-size: clamp(18px, 4vw, 24px);
+      font-weight: 500;
+      color: var(--navy);
+      letter-spacing: -.02em;
+      line-height: 1.5;
+    }
+    .hero .lead b { font-weight: 800; }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 38px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 14px 26px;
+      border-radius: 999px;
+      transition: transform .2s var(--ease), box-shadow .25s ease, background .2s ease;
+    }
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(135deg, var(--coral), var(--coral-deep));
+      box-shadow: 0 10px 24px rgba(242, 73, 91, .30);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 32px rgba(242, 73, 91, .38); }
+    .btn-ghost {
+      color: var(--navy);
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 4px 12px rgba(26, 35, 50, .05);
+    }
+    .btn-ghost:hover { transform: translateY(-2px); border-color: #dfe2ec; }
+
+    /* ---------- Sections ---------- */
+    section { padding: 96px 0; }
+    .section-head { text-align: center; max-width: 640px; margin: 0 auto 56px; }
+    .section-head h2 {
+      font-size: clamp(30px, 6vw, 46px);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      line-height: 1.12;
+      margin-top: 16px;
+    }
+    .section-head p {
+      margin-top: 16px;
+      font-size: clamp(16px, 3.6vw, 18px);
+      color: var(--navy-soft);
+      letter-spacing: -.01em;
+    }
+
+    /* ---------- App cards ---------- */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 860px) { .cards { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; } }
+
+    .card {
+      position: relative;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 32px 28px 28px;
+      display: flex;
+      flex-direction: column;
+      transition: transform .3s var(--ease), box-shadow .3s ease, border-color .3s ease;
+      overflow: hidden;
+    }
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 48px rgba(26, 35, 50, .14);
+      border-color: #e2e5ee;
+    }
+    .card-icon {
+      width: 66px;
+      height: 66px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-size: 34px;
+      margin-bottom: 22px;
+      background: var(--bg-tint);
+      box-shadow: inset 0 0 0 1px rgba(26, 35, 50, .04);
+    }
+    .card-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 18px; }
+    .card h3 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+    .card .role {
+      margin-top: 8px;
+      font-size: 15px;
+      color: var(--navy-soft);
+      font-weight: 500;
+      flex-grow: 1;
+      line-height: 1.55;
+    }
+    .store-links {
+      margin-top: 22px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .store-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+      background: var(--bg-tint);
+      padding: 9px 13px;
+      border-radius: 10px;
+      transition: transform .2s var(--ease), background .2s ease;
+    }
+    .store-btn:hover { transform: translateY(-2px); background: #eceef5; }
+    .store-btn svg { width: 15px; height: 15px; flex: none; }
+
+    /* Coming soon variant */
+    .card.soon {
+      background:
+        radial-gradient(120% 90% at 100% 0%, rgba(255, 107, 122, .10), transparent 55%),
+        linear-gradient(160deg, #1a2332, #232f45);
+      border-color: transparent;
+      color: #fff;
+    }
+    .card.soon .card-icon {
+      background: rgba(255, 255, 255, .10);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12);
+      position: relative;
+    }
+    .card.soon h3 { color: #fff; }
+    .card.soon .role { color: rgba(255, 255, 255, .72); }
+    .card.soon .badge {
+      align-self: flex-start;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #fff;
+      background: rgba(255, 255, 255, .14);
+      padding: 6px 12px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+    /* sparkles on soon card */
+    .card.soon .spark {
+      position: absolute;
+      color: rgba(255, 255, 255, .9);
+      pointer-events: none;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+    .card.soon .spark.s1 { top: 42px; right: 34px; font-size: 15px; animation-delay: 0s; }
+    .card.soon .spark.s2 { top: 84px; right: 66px; font-size: 10px; animation-delay: .8s; }
+    .card.soon .spark.s3 { top: 60px; right: 92px; font-size: 12px; animation-delay: 1.6s; }
+    @keyframes twinkle {
+      0%, 100% { opacity: .2; transform: scale(.7); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+    @media (prefers-reduced-motion: reduce) { .spark { animation: none; } }
+
+    /* ---------- Privacy links ---------- */
+    #privacy .privacy-list {
+      max-width: 640px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .privacy-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 24px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      transition: border-color .2s ease, transform .2s var(--ease), box-shadow .2s ease;
+    }
+    .privacy-row:hover { border-color: #dfe2ec; transform: translateY(-2px); box-shadow: 0 10px 24px rgba(26, 35, 50, .07); }
+    .privacy-row .name { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 16px; }
+    .privacy-row .name .dot { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: var(--bg-tint); font-size: 18px; }
+    .privacy-row .go { font-size: 14px; font-weight: 700; color: var(--coral-deep); white-space: nowrap; }
+
+    /* ---------- Footer ---------- */
+    footer {
+      background: var(--navy);
+      color: rgba(255, 255, 255, .78);
+      padding: 72px 0 56px;
+    }
+    .footer-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      justify-content: space-between;
+    }
+    footer .brand { color: #fff; margin-bottom: 16px; }
+    footer .brand .logo { background: linear-gradient(135deg, var(--coral), var(--coral-deep)); box-shadow: none; }
+    footer .tagline { font-size: 15px; max-width: 320px; color: rgba(255, 255, 255, .62); }
+    .footer-info { font-size: 14px; line-height: 2; }
+    .footer-info dt { color: rgba(255, 255, 255, .5); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; margin-top: 10px; }
+    .footer-info dd { color: #fff; font-weight: 600; }
+    .footer-info a:hover { color: var(--coral); }
+    .footer-bottom {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, .12);
+      font-size: 13px;
+      color: rgba(255, 255, 255, .5);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* ---------- Scroll reveal (CSS only, progressive enhancement) ---------- */
+    @media (prefers-reduced-motion: no-preference) {
+      @supports (animation-timeline: view()) {
+        .reveal {
+          opacity: 0;
+          animation: reveal-up .9s var(--ease) forwards;
+          animation-timeline: view();
+          animation-range: entry 0% cover 32%;
+        }
+      }
+    }
+    @keyframes reveal-up {
+      from { opacity: 0; transform: translateY(34px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <header id="header">
+    <div class="wrap nav">
+      <a class="brand" href="#top" aria-label="Block Five 홈">
+        <span class="logo">B</span>
+        <span>Block Five</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#apps" class="hide-sm">앱</a>
+        <a href="#privacy" class="hide-sm">개인정보처리방침</a>
+        <a href="mailto:fiveblockj@gmail.com" class="nav-cta">문의하기</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <span class="blob b1"></span>
+      <span class="blob b2"></span>
+      <span class="blob b3"></span>
+      <div class="wrap">
+        <span class="eyebrow">App Studio · Seoul</span>
+        <h1>
+          <span class="accent">Block Five</span>
+          <span class="sub-ko">블록 파이브</span>
+        </h1>
+        <p class="lead">일상을 더 즐겁게 만드는 <b>앱을 만듭니다.</b></p>
+        <div class="hero-actions">
+          <a href="#apps" class="btn btn-primary">우리 앱 둘러보기</a>
+          <a href="#contact" class="btn btn-ghost">문의하기</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- APPS -->
+    <section id="apps">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Our Apps</span>
+          <h2>사람들의 하루에<br />작은 즐거움을 더하는 앱</h2>
+          <p>작지만 단단하게, 매일 쓰고 싶은 서비스를 만들어 갑니다.</p>
+        </div>
+
+        <div class="cards">
+          <!-- 행테 -->
+          <article class="card reveal">
+            <div class="card-icon">
+              <img src="assets/haengte.png" alt="행테 앱 아이콘"
+                   onerror="this.replaceWith(document.createTextNode('🎾'))" />
+            </div>
+            <h3>행테</h3>
+            <p class="role">테니스 매치 &amp; 커뮤니티. 함께 칠 사람을 찾고, 중고거래·레슨·대진표까지 한 번에.</p>
+            <div class="store-links">
+              <a class="store-btn" href="https://apps.apple.com/app/id6783244858" target="_blank" rel="noopener" aria-label="행테 App Store">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.54c-.02-2.03 1.66-3 1.73-3.05-.94-1.38-2.41-1.57-2.93-1.59-1.25-.13-2.44.73-3.07.73-.63 0-1.61-.71-2.65-.69-1.36.02-2.62.79-3.32 2.01-1.42 2.46-.36 6.1 1.01 8.1.67.98 1.47 2.08 2.51 2.04 1.01-.04 1.39-.65 2.61-.65 1.21 0 1.56.65 2.62.63 1.08-.02 1.77-1 2.43-1.98.77-1.13 1.08-2.23 1.1-2.29-.02-.01-2.11-.81-2.13-3.21zM15.1 6.28c.56-.68.94-1.62.83-2.56-.81.03-1.79.54-2.37 1.21-.52.6-.97 1.56-.85 2.48.9.07 1.83-.46 2.39-1.13z"/></svg>
+                App Store
+              </a>
+              <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.bans.happytennis" target="_blank" rel="noopener" aria-label="행테 Google Play">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 2.3c-.2.2-.3.5-.3.9v17.6c0 .4.1.7.3.9l.1.1L13.5 12v-.1L3.7 2.2l-.1.1zM17 15.3l-3.3-3.3v-.1L17 8.7l3.9 2.2c1.1.6 1.1 1.6 0 2.3L17 15.3zM13.5 12.1L3.7 21.8c.4.3.9.4 1.5 0l11.3-6.4-3-3.3zM16.5 8.9L5.2 2.5c-.6-.3-1.1-.3-1.5 0l9.8 9.6 3-3.2z"/></svg>
+                Google Play
+              </a>
+            </div>
+          </article>
+
+          <!-- 고민장터 -->
+          <article class="card reveal">
+            <div class="card-icon">
+              <img src="assets/gomin.png" alt="고민장터 앱 아이콘"
+                   onerror="this.replaceWith(document.createTextNode('🧸'))" />
+            </div>
+            <h3>고민장터</h3>
+            <p class="role">AI 고민상담 커뮤니티. 털어놓기 어려운 이야기를 나누고, AI와 사람들에게서 위로와 조언을 얻어요.</p>
+            <div class="store-links">
+              <a class="store-btn" href="https://apps.apple.com/app/id6747107641" target="_blank" rel="noopener" aria-label="고민장터 App Store">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.54c-.02-2.03 1.66-3 1.73-3.05-.94-1.38-2.41-1.57-2.93-1.59-1.25-.13-2.44.73-3.07.73-.63 0-1.61-.71-2.65-.69-1.36.02-2.62.79-3.32 2.01-1.42 2.46-.36 6.1 1.01 8.1.67.98 1.47 2.08 2.51 2.04 1.01-.04 1.39-.65 2.61-.65 1.21 0 1.56.65 2.62.63 1.08-.02 1.77-1 2.43-1.98.77-1.13 1.08-2.23 1.1-2.29-.02-.01-2.11-.81-2.13-3.21zM15.1 6.28c.56-.68.94-1.62.83-2.56-.81.03-1.79.54-2.37 1.21-.52.6-.97 1.56-.85 2.48.9.07 1.83-.46 2.39-1.13z"/></svg>
+                App Store
+              </a>
+              <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.bansandroid.gomin" target="_blank" rel="noopener" aria-label="고민장터 Google Play">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 2.3c-.2.2-.3.5-.3.9v17.6c0 .4.1.7.3.9l.1.1L13.5 12v-.1L3.7 2.2l-.1.1zM17 15.3l-3.3-3.3v-.1L17 8.7l3.9 2.2c1.1.6 1.1 1.6 0 2.3L17 15.3zM13.5 12.1L3.7 21.8c.4.3.9.4 1.5 0l11.3-6.4-3-3.3zM16.5 8.9L5.2 2.5c-.6-.3-1.1-.3-1.5 0l9.8 9.6 3-3.2z"/></svg>
+                Google Play
+              </a>
+            </div>
+          </article>
+
+          <!-- Coming Soon -->
+          <article class="card soon reveal">
+            <span class="spark s1">✦</span>
+            <span class="spark s2">✦</span>
+            <span class="spark s3">✧</span>
+            <span class="badge">Coming Soon</span>
+            <div class="card-icon">🔒</div>
+            <h3>비밀 프로젝트</h3>
+            <p class="role">새로운 앱을 준비 중이에요 ✨<br />조금만 기다려 주세요.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRIVACY -->
+    <section id="privacy" style="background: var(--bg-tint);">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Privacy</span>
+          <h2>개인정보처리방침</h2>
+          <p>Block Five는 이용자의 개인정보를 소중하게 보호합니다. 앱별 처리방침을 확인하세요.</p>
+        </div>
+        <div class="privacy-list reveal">
+          <a class="privacy-row" href="https://buttery-snapper-b56.notion.site/384048783494806da7fbdcb6adc2bb55" target="_blank" rel="noopener">
+            <span class="name"><span class="dot">🎾</span> 행테 개인정보처리방침</span>
+            <span class="go">보기 →</span>
+          </a>
+          <a class="privacy-row" href="https://www.notion.so/1f0bc8c0752c804690bff82780238631" target="_blank" rel="noopener">
+            <span class="name"><span class="dot">🧸</span> 고민장터 개인정보처리방침</span>
+            <span class="go">보기 →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="brand">
+            <span class="logo">B</span>
+            <span>Block Five</span>
+          </div>
+          <p class="tagline">일상을 더 즐겁게 만드는 앱을 만듭니다.</p>
+        </div>
+        <dl class="footer-info">
+          <dt>Email</dt>
+          <dd><a href="mailto:contact@blockfive.kr">contact@blockfive.kr</a></dd>
+          <dt>주소</dt>
+          <dd>서울특별시 송파구 백제고분로 509<br />7층 7406호 (방이동, 대종빌딩)</dd>
+          <dt>사업자등록번호</dt>
+          <dd>541-23-01305</dd>
+        </dl>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Block Five. All rights reserved.</span>
+        <span>blockfive.kr</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 헤더 스크롤 시 경계선 (바닐라 JS, 라이브러리 아님)
+    var header = document.getElementById('header');
+    var onScroll = function () {
+      if (window.scrollY > 8) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  </script>
+</body>
+</html>
