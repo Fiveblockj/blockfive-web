@@ -6,7 +6,10 @@
 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:22px}
 @media (max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:560px){.grid{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;display:flex;flex-direction:column;gap:12px;min-height:260px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;transition:transform .2s var(--ease),box-shadow .2s;}
+.card:hover{transform:translateY(-2px);box-shadow:0 14px 30px -18px rgba(26,35,50,.35)}
+.card.on{border-color:var(--ink)}
+.card{display:flex;flex-direction:column;gap:12px;min-height:260px}
 .card .icon{width:56px;height:56px;border-radius:15px;overflow:hidden;background:var(--tint);display:grid;place-items:center;font-family:var(--serif);font-size:24px}
 .card h3{font-size:20px}
 .card p{color:var(--ink3);font-size:14.5px;flex:1}
@@ -45,7 +48,6 @@
 .panel ul{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;list-style:none}
 .panel li{background:rgba(255,255,255,.75);border:1px solid rgba(0,0,0,.06);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;color:var(--ink2)}
 .carnav{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:14px}
-.arrow{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:20px;cursor:pointer;line-height:1}
 .dots{display:flex;gap:8px}
 .dots button{width:8px;height:8px;border-radius:50%;border:0;background:var(--line);cursor:pointer;padding:0}
 .dots button.on{background:var(--ink);width:22px;border-radius:4px}
@@ -104,7 +106,7 @@
         <div class="panel"><span class="glyph">✦</span><ul><li>진짜로 깨우는 미션</li><li>눈 뜨면 타로 한 장</li><li>아침 브리핑</li></ul></div>
       </article>
     </div>
-    <div class="carnav"><button class="arrow" data-dir="-1" aria-label="이전">‹</button><div class="dots" id="dots"></div><button class="arrow" data-dir="1" aria-label="다음">›</button></div>
+    <div class="carnav"><div class="dots" id="dots"></div></div>
   </div>
   <div class="grid">
     <article class="card"><div class="icon"><img src="assets/onefortwo.png" alt="원포투 아이콘"></div><h3>원포투</h3>
@@ -143,10 +145,10 @@
 </main><footer id="contact"><div class="wrap"><div class="fgrid"><div><div class="brand" style="margin-bottom:10px"><span class="b">B</span>Block Five</div><p>일상을 더 즐겁게 만드는 작은 앱을 만듭니다. 사람과 사람을 이어주는, 오래 곁에 두고 싶은 서비스.</p></div><div><h4>앱</h4><ul><li><a href="onefortwo/">원포투 · ONE FOR TWO</a></li><li><a href="https://apps.apple.com/kr/app/id6783244858">행테</a></li><li><a href="https://apps.apple.com/kr/app/id6747107641">고민장터</a></li><li>타로알람 · 준비 중</li></ul></div><div><h4>회사</h4><ul><li><a href="mailto:fiveblockj@gmail.com">fiveblockj@gmail.com</a></li><li>서울특별시 송파구 백제고분로 509, 7층 7406호</li><li>사업자등록번호 541-23-01305</li></ul></div></div><div class="bottom"><span>© 2026 Block Five. All rights reserved.</span><span><a href="onefortwo/privacy.html">개인정보 처리방침</a> · <a href="onefortwo/terms.html">이용약관</a></span></div></div></footer><script>var n=document.getElementById('nav');addEventListener('scroll',function(){n.classList.toggle('scrolled',scrollY>8)},{passive:true});</script><script>
 (function(){var car=document.getElementById('car'),track=car.querySelector('.track'),slides=track.children,dots=document.getElementById('dots'),i=0,n=slides.length,timer;
 for(var k=0;k<n;k++){var b=document.createElement('button');b.setAttribute('aria-label','슬라이드 '+(k+1));b.addEventListener('click',(function(k){return function(){go(k,true)}})(k));dots.appendChild(b)}
-function go(k,user){i=(k+n)%n;track.style.transform='translateX(-'+(i*100)+'%)';for(var j=0;j<n;j++)dots.children[j].classList.toggle('on',j===i);if(user)restart()}
-function restart(){clearInterval(timer);if(!matchMedia('(prefers-reduced-motion: reduce)').matches)timer=setInterval(function(){go(i+1)},6000)}
-car.querySelectorAll('.arrow').forEach(function(a){a.addEventListener('click',function(){go(i+parseInt(a.dataset.dir,10),true)})});
+function go(k,user){i=(k+n)%n;track.style.transform='translateX(-'+(i*100)+'%)';for(var j=0;j<n;j++){dots.children[j].classList.toggle('on',j===i);var cd=document.querySelectorAll('.grid .card')[j];if(cd)cd.classList.toggle('on',j===i)}if(user)restart()}
+function restart(){clearInterval(timer);if(!matchMedia('(prefers-reduced-motion: reduce)').matches)timer=setInterval(function(){go(i+1)},5000)}
 car.addEventListener('mouseenter',function(){clearInterval(timer)});car.addEventListener('mouseleave',restart);
 var sx=0;car.addEventListener('touchstart',function(e){sx=e.touches[0].clientX},{passive:true});car.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)go(i+(dx<0?1:-1),true)});
+document.querySelectorAll('.grid .card').forEach(function(c,k){c.style.cursor='pointer';c.addEventListener('click',function(e){if(e.target.closest('a'))return;go(k,true);car.scrollIntoView({behavior:'smooth',block:'center'})})});
 go(0);restart()})();
 </script></body></html>
