@@ -1,29 +1,14 @@
-# Block Five 회사 소개 웹사이트
+# Block Five 회사 사이트 — blockfive.kr
 
-일상을 더 즐겁게 만드는 앱을 만드는 **Block Five(블록 파이브)**의 공식 회사 소개 사이트입니다.
-
-- 순수 HTML + 인라인 CSS 단일 파일 (`index.html`)
-- 프레임워크·빌드 도구 없음, 반응형(모바일 우선), 한국어
-- GitHub Pages 배포 · 커스텀 도메인 [blockfive.kr](https://blockfive.kr)
-
-## 로컬 미리보기
-
-```bash
-# 그냥 파일을 열거나
-open index.html
-# 또는 간단한 로컬 서버
-python3 -m http.server 8000   # http://localhost:8000
-```
-
-## 구조
+앱 만드는 스튜디오 사이트. 순수 HTML/CSS, 빌드 없음, GitHub Pages(main, root) 자동 배포.
 
 ```
-index.html      # 전체 사이트 (인라인 CSS)
-favicon.svg     # "B" 이니셜 파비콘
-CNAME           # blockfive.kr
-assets/         # 앱 아이콘 이미지 (haengte.png, gomin.png)
+index.html              # 홈 — 스튜디오 소개 · 앱(원포투·행테·고민장터·타로알람) · 처리방침 목록
+onefortwo/index.html    # 원포투 제품 페이지
+onefortwo/privacy.html  # 원포투 개인정보 처리방침 (정본 = fortwo 저장소 lib/screens/more/legal_screen.dart, 같은 문안)
+onefortwo/terms.html    # 원포투 이용약관
+app-ads.txt             # 애드몹 — 한 계정, 모든 앱 공용(스토어의 개발자 웹사이트를 blockfive.kr로)
+assets/site.css         # 공용 스타일 · assets/onefortwo/ 스크린샷
 ```
 
-## 배포
-
-`main` 브랜치에 push하면 GitHub Pages(root)가 자동 배포합니다.
+새 앱은 `<앱>/index.html` 폴더 하나로 늘린다. 사도돼는 출시하지 않으므로 싣지 않는다.
